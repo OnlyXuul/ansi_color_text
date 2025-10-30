@@ -70,4 +70,9 @@ main :: proc() {
 	printflnc(heading_24bit, "%s", "Testing a sudo heading with fg and bg and 2 attributes?")
 
 	fmt.println()
+
+	// if running in a loop or executing often in a long running program,
+	// periodically clear the context.temp_allocator either at the end of the loop,
+	// or when appropriate.
+	free_all(context.temp_allocator)
 }
