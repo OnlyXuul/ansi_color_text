@@ -13,4 +13,5 @@ Respective procedures:
 Hyperlinks not implimented since most terminals are late to adopt
 or have it disabled by default. In those terminals, URL detection is supported,
 so support for OSC 8 is really moot. Here's an example though:
+
 fmt.printfln("%s%s%s%s%s", OSC + HYPERLINK + ";;", "https://forum.odin-lang.org/", ST, "Click Me", OSC + HYPERLINK + ";;" + ST)
