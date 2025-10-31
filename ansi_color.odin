@@ -181,8 +181,7 @@ ANSI_24Bit :: struct {
 }
 
 /***********************************************************
- * Print procedures
- * Use overloaded procedures:
+ * Print procedures:
  * printfc
  * printflnc
  ***********************************************************/
