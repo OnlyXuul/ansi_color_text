@@ -10,7 +10,7 @@ import ansi "core:terminal/ansi"
  *
  * Procedures:
  * printfc(ansi_format: ANSI_Format, printf_format: string, args: ..any)
- * printflnc(ansi_format: ANSI_Format, printf_format: string, args: ..any)
+ * printfcln(ansi_format: ANSI_Format, printf_format: string, args: ..any)
  *
  * ANSI_Format union types (pass one of these to print procedures):
  * ANSI_3Bit
@@ -194,7 +194,7 @@ printfc :: proc(ansi_format: ANSI_Format, printf_format: string, args: ..any) {
 	fprintfc(ansi_format, printf_format, ..args, newline = false)
 }
 
-printflnc :: proc(ansi_format: ANSI_Format, printf_format: string, args: ..any) {
+printfcln :: proc(ansi_format: ANSI_Format, printf_format: string, args: ..any) {
 	fprintfc(ansi_format, printf_format, ..args, newline = true)
 }
 
