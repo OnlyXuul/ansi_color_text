@@ -2,7 +2,7 @@ ANSI Color library that supports 3bit, 4bit, 8bit, and 24bit (TrueColor) printin
 
 Procedures:
 * printfc(ansi_format: ANSI_Format, printf_format: string, args: ..any)
-* printflnc(ansi_format: ANSI_Format, printf_format: string, args: ..any)
+* printfcln(ansi_format: ANSI_Format, printf_format: string, args: ..any)
 
 ANSI_Format union types (pass one of these to print procedures):
 * ANSI_3Bit
