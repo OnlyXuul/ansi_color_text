@@ -19,8 +19,12 @@ import ansi "core:terminal/ansi"
  * ANSI_24Bit
  ***************************************************************************************************/
 
-// Used by all color formats.
-// No way to check for these except to just try them in the terminal.
+/***********************************************************
+ * Attribute used by all color formats
+ * No way to check for these except to just try them
+ * in the terminal.
+ ***********************************************************/
+
 Attribute :: enum u8 {
 	BOLD                    = 1,
 	FAINT                   = 2,
