@@ -1,79 +1,110 @@
 package ansi_color
 
 /***********************************************************
- * Constants for testing
+ * Print testing stuff
  ***********************************************************/
 
-test_heading :: ANSI_3Bit{fg = .FG_BLUE, att = {.OVERLINED}}
+Print_Format :: struct {
+	title:      ANSI_Format,
+	col_header: ANSI_Format,
+	row_header: ANSI_Format,
+	data:       ANSI_Format,
+	notes:      ANSI_Format,
+	error:      ANSI_Format,
+	warning:    ANSI_Format,
+	highlight:  ANSI_Format,
+	inverted:   ANSI_Format,
+	no_sgr:     ANSI_Format,
+}
 
-nocolor_3bit :: ANSI_3Bit{}
-hello_3bit   :: ANSI_3Bit{fg = .FG_GREEN}
-world_3bit   :: ANSI_3Bit{fg = .FG_CYAN}
-error_3bit   :: ANSI_3Bit{fg = .FG_RED}
-warning_3bit :: ANSI_3Bit{fg = .FG_YELLOW}
-heading_3bit :: ANSI_3Bit{fg = .FG_BLACK, bg = .BG_GREEN, att = {.UNDERLINE, .ITALIC}}
+test_print :: proc(type: string, tpf: Print_Format) {
+	printfcln(tpf.title,    "\n%s%s%s",  "Testing ", type, " color printing")
+	printfcln(tpf.title,    "%*s", 23 + len(type)," ")
+	printfc(tpf.col_header, "%s", "Test"); printfc(tpf.no_sgr, "%-7s", ""); printfcln(tpf.col_header, "%s", "Output")
+	printfc(tpf.row_header, "%-11s", "No SGR:"); printfcln(tpf.no_sgr, "No color or attributes set.")
+	printfc(tpf.row_header, "%-11s", "Error:"); printfcln(tpf.error, "Error text.")
+	printfc(tpf.row_header, "%-11s", "Warning:"); printfcln(tpf.warning, "Warning text.")
+	printfc(tpf.row_header, "%-11s", "Data:"); printfcln(tpf.data, "Data text.")
+	printfc(tpf.row_header, "%-11s", "Notes:"); printfcln(tpf.notes, "Notes text.")
+	printfc(tpf.row_header, "%-11s", "Highlight:"); printfcln(tpf.highlight, "Highlighted text.")
+	printfc(tpf.row_header, "%-11s", "Inverted:"); printfcln(tpf.inverted, "Inverted highlighted text.")
+}
 
-nocolor_4bit :: ANSI_4Bit{}
-hello_4bit   :: ANSI_4Bit{fg = .FG_BRIGHT_GREEN}
-world_4bit   :: ANSI_4Bit{fg = .FG_BRIGHT_CYAN}
-error_4bit   :: ANSI_4Bit{fg = .FG_BRIGHT_RED}
-warning_4bit :: ANSI_4Bit{fg = .FG_BRIGHT_YELLOW}
-heading_4bit :: ANSI_4Bit{fg = .FG_BRIGHT_BLACK, bg = .BG_BRIGHT_GREEN, att = {.UNDERLINE, .ITALIC}}
-
-nocolor_8bit :: ANSI_8Bit{}
-hello_8bit   :: ANSI_8Bit{fg = 118}
-world_8bit   :: ANSI_8Bit{fg = 51}
-error_8bit   :: ANSI_8Bit{fg = 196}
-warning_8bit :: ANSI_8Bit{fg = 226}
-heading_8bit :: ANSI_8Bit{fg = 16, bg = 107, att = {.UNDERLINE, .ITALIC}}
-
-nocolor_24bit :: ANSI_24Bit{}
-hello_24bit   :: ANSI_24Bit{fg = {20, 250, 20}}
-world_24bit   :: ANSI_24Bit{fg = {20, 250, 250}}
-error_24bit   :: ANSI_24Bit{fg = {240, 75, 75}}
-warning_24bit :: ANSI_24Bit{fg = {220, 230, 20}}
-heading_24bit :: ANSI_24Bit{fg = {0, 0, 0}, bg = {135, 175, 95}, att = {.UNDERLINE, .ITALIC}}
-
-odin :: ANSI_4Bit{fg = .FG_BRIGHT_BLUE, att = {.UNDERLINE}}
+// To test switching out 24bit color themes
+set_theme :: proc(theme: Color_Theme) -> (test_print_format: Print_Format) {
+	test_print_format = {
+		title      = ANSI_24Bit{fg = theme.blue, att = {.BOLD, .OVERLINED}},
+		col_header = ANSI_24Bit{fg = theme.cyan, att = {.UNDERLINE}},
+		row_header = ANSI_24Bit{fg = theme.green},
+		data       = ANSI_24Bit{fg = theme.blue},
+		notes      = ANSI_24Bit{fg = theme.blue, att = {.FAINT, .ITALIC}},
+		error      = ANSI_24Bit{fg = theme.red},
+		warning    = ANSI_24Bit{fg = theme.yellow},
+		highlight  = ANSI_24Bit{fg = theme.purple, bg = theme.black},
+		inverted   = ANSI_24Bit{fg = theme.purple, bg = theme.black, att = {.INVERT}},
+	}
+	return
+}
 
 main :: proc() {
-	printfcln(test_heading, "\n%s",  "Testing 3bit color printing")
-	printfcln(test_heading, "%s",    "                           ")
-	printfcln(nocolor_3bit, "%s",    "This tests no color. i.e. nil")
-	printfc(hello_3bit,     "%-15s", "hellope")
-	printfcln(world_3bit,   "%s",    "world!")
-	printfcln(error_3bit,   "%s",    "This test what I might use for an error.")
-	printfcln(warning_3bit, "%s",    "This tests what I might use for a warning")
-	printfcln(heading_3bit, "%s",    "Testing a sudo heading with fg and bg and 2 attributes?")
+	test_print_format: Print_Format
 
-	printfcln(test_heading, "\n%s",  "Testing 4bit color printing")
-	printfcln(test_heading, "%s",    "                           ")
-	printfcln(nocolor_4bit, "%s",    "This tests no color. i.e. nil")
-	printfc(hello_4bit,     "%-15s", "hellope")
-	printfcln(world_4bit,   "%s",    "world!")
-	printfcln(error_4bit,   "%s",    "This test what I might use for an error.")
-	printfcln(warning_4bit, "%s",    "This tests what I might use for a warning")
-	printfcln(heading_4bit, "%s",    "Testing a sudo heading with fg and bg and 2 attributes?")
+	test_print_format = {
+		title      = ANSI_3Bit{fg = .FG_BLUE, att = {.BOLD, .OVERLINED}},
+		col_header = ANSI_3Bit{fg = .FG_CYAN, att = {.UNDERLINE}},
+		row_header = ANSI_3Bit{fg = .FG_GREEN},
+		data       = ANSI_3Bit{fg = .FG_BLUE},
+		notes      = ANSI_3Bit{fg = .FG_BLUE, att = {.FAINT, .ITALIC}},
+		error      = ANSI_3Bit{fg = .FG_RED},
+		warning    = ANSI_3Bit{fg = .FG_YELLOW},
+		highlight  = ANSI_3Bit{fg = .FG_BLACK, bg = .BG_MAGENTA},
+		inverted   = ANSI_3Bit{fg = .FG_BLACK, bg = .BG_MAGENTA, att = {.INVERT}},
+	}
 
-	printfcln(test_heading, "\n%s",  "Testing 8bit color printing")
-	printfcln(test_heading, "%s",    "                           ")
-	printfcln(nocolor_8bit, "%s",    "This tests no color. i.e. nil")
-	printfc(hello_8bit,     "%-15s", "hellope")
-	printfcln(world_8bit,   "%s",    "world!")
-	printfcln(error_8bit,   "%s",    "This test what I might use for an error.")
-	printfcln(warning_8bit, "%s",    "This tests what I might use for a warning")
-	printfcln(heading_8bit, "%s",    "Testing a sudo heading with fg and bg and 2 attributes?")
+	test_print("3Bit", test_print_format)
 
-	printfcln(test_heading,  "\n%s",  "Testing 24bit color printing")
-	printfcln(test_heading,  "%s",    "                            ")
-	printfcln(nocolor_24bit, "%s",    "This tests no color. i.e. nil")
-	printfc(hello_24bit,     "%-15s", "hellope")
-	printfcln(world_24bit,   "%s",    "world!")
-	printfcln(error_24bit,   "%s",    "This test what I might use for an error.")
-	printfcln(warning_24bit, "%s",    "This tests what I might use for a warning")
-	printfcln(heading_24bit, "%s",    "Testing a sudo heading with fg and bg and 2 attributes?")
+	test_print_format = {
+		title      = ANSI_4Bit{fg = .FG_BRIGHT_BLUE, att = {.BOLD, .OVERLINED}},
+		col_header = ANSI_4Bit{fg = .FG_BRIGHT_CYAN, att = {.UNDERLINE}},
+		row_header = ANSI_4Bit{fg = .FG_BRIGHT_GREEN},
+		data       = ANSI_4Bit{fg = .FG_BRIGHT_BLUE},
+		notes      = ANSI_4Bit{fg = .FG_BRIGHT_BLUE, att = {.FAINT, .ITALIC}},
+		error      = ANSI_4Bit{fg = .FG_BRIGHT_RED},
+		warning    = ANSI_4Bit{fg = .FG_BRIGHT_YELLOW},
+		highlight  = ANSI_4Bit{fg = .FG_BRIGHT_BLACK, bg = .BG_BRIGHT_MAGENTA},
+		inverted   = ANSI_4Bit{fg = .FG_BRIGHT_BLACK, bg = .BG_BRIGHT_MAGENTA, att = {.INVERT}},
+	}
 
-	printfcln(odin, "\n%s\n", "https://forum.odin-lang.org")
+	test_print("4Bit", test_print_format)
+
+	test_print_format = {
+		title      = ANSI_8Bit{fg = 33, att = {.BOLD, .OVERLINED}},
+		col_header = ANSI_8Bit{fg = 14, att = {.UNDERLINE}},
+		row_header = ANSI_8Bit{fg = 118},
+		data       = ANSI_8Bit{fg = 33},
+		notes      = ANSI_8Bit{fg = 33, att = {.FAINT, .ITALIC}},
+		error      = ANSI_8Bit{fg = 196},
+		warning    = ANSI_8Bit{fg = 226},
+		highlight  = ANSI_8Bit{fg = 234, bg = 141},
+		inverted   = ANSI_8Bit{fg = 234, bg = 141, att = {.INVERT}},
+	}
+
+	test_print("8Bit", test_print_format)
+
+	test_print_format = set_theme(Atom_One_Dark)
+	test_print("24Bit - Atom One Dark Theme", test_print_format)
+
+	test_print_format = set_theme(Drakula)
+	test_print("24Bit - Drakula Theme", test_print_format)
+
+	printfcln(test_print_format.no_sgr, "")
+
+	odin := ANSI_24Bit{fg = Drakula.pink, att = {.UNDERLINE}}
+	printfcln(odin, "%s", "https://forum.odin-lang.org")
+
+	xuul := ANSI_24Bit{fg = Drakula.pink, att = {.UNDERLINE}}
+	printfcln(xuul, "%s", "https://github.com/OnlyXuul/")
+	printfcln(xuul, "%s\n", "https://gitlab.com/xuul/")
 
 	// if running in a loop or executing often in a long running program,
 	// periodically clear the context.temp_allocator either at the end of the loop,

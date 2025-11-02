@@ -178,9 +178,11 @@ ANSI_8Bit :: struct {
  * 24 Bit (TrueColor) Color Printing - 16.7 million colors
  ***********************************************************/
 
+RGB :: [3]Maybe(u8)
+
 ANSI_24Bit :: struct {
-	fg:  [3]Maybe(u8),
-	bg:  [3]Maybe(u8),
+	fg:  RGB,
+	bg:  RGB,
 	att: bit_set[Attribute],
 }
 
