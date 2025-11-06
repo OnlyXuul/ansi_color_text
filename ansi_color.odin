@@ -178,7 +178,7 @@ ANSI_8Bit :: struct {
  * 24 Bit (TrueColor) Color Printing - 16.7 million colors
  ***********************************************************/
 
-RGB :: [3]Maybe(u8)
+RGB :: distinct [3]Maybe(u8)
 
 ANSI_24Bit :: struct {
 	fg:  RGB,
@@ -206,12 +206,13 @@ fprintfc :: proc(ansi_format: ANSI_Format, printf_format: string, args: ..any, n
 		semi: string
 		for a in attributes {
 			semi = len(att) == 0 ? "" : ";"
-			att = fmt.tprintf("%s%s%i", att, semi, a) }
-			return
+			att = fmt.tprintf("%s%s%i", att, semi, a)
+		}
+		return
 	}
 
-	sgr_sequence, format, semi: string
 	terminal_ok: bool
+	sgr_sequence, format, semi: string
 
 	switch af in ansi_format {
 		case ANSI_3Bit:
