@@ -1,5 +1,7 @@
 ANSI Color library that supports 3bit, 4bit, 8bit, and 24bit (TrueColor) printing to terminal.
 
+Note: The terminal in VSCode may not display ANSI correctly. Have not yet figured out why. All my research has found MS deflecting the issue as someone elses problem.
+
 Procedures:
 * printfc(ansi_format: ANSI_Format, printf_format: string, args: ..any)
 * printfcln(ansi_format: ANSI_Format, printf_format: string, args: ..any)
