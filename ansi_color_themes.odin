@@ -38,29 +38,6 @@ Color_Theme :: struct {
 	},
 }
 
-// Prints theme info - or just colors if colors_only = true
-print_theme_info :: proc(t: Color_Theme, colors_only := false) {
-	print :: proc(rgb: RGB) {
-		a := ANSI_24Bit{fg = rgb}
-		printfc(a, "%-4s", "█")
-	}
-	if !colors_only {
-		printfcln({}, "%s", t.name)
-		for i in t.info do printfcln({}, "%s", i)
-			printfcln({}, "")
-			printfcln({}, "%-16s%-16s%s", "Base Color Set", "Light Color Set", "Dark Color Set")
-	}
-	print(t.red);  print(t.green);   print(t.yellow); print(t.blue)
-	print(t.magenta); print(t.cyan); print(t.white);  print(t.black)
-
-	print(t.light.red);  print(t.light.green);   print(t.light.yellow); print(t.light.blue)
-	print(t.light.magenta); print(t.light.cyan); print(t.light.white);  print(t.light.black)
-
-	print(t.dark.red);  print(t.dark.green);   print(t.dark.yellow); print(t.dark.blue)
-	print(t.dark.magenta); print(t.dark.cyan); print(t.dark.white); print(t.dark.black)
-	printfcln({}, "")
-}
-
 // Theme IDs for indexing
 Theme_ID :: enum {
 	Atom_One_Dark,

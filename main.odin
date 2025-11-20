@@ -73,8 +73,8 @@ where T == ANSI_3Bit || T == ANSI_4Bit || T == ANSI_8Bit || T == ANSI_24Bit || T
 }
 
 test_print :: proc(info: string, pf: Print_Format) {
-	printfcln(pf.no_sgr, "")
-	printfcln(pf.title,    "%s%s%s",  "Testing ", info, " ansi printing")
+	printfcln(pf.no_sgr,   "")
+	printfcln(pf.title,    "%s%s%s", "Testing ", info, " ansi printing")
 	printfcln(pf.title,    "%*s", 22 + len(info)," ")
 	printfc(pf.col_header, "%s", "Test"); printfc(pf.no_sgr, "%-7s", ""); printfcln(pf.col_header, "%s", "Output")
 	printfc(pf.row_header, "%-11s", "No SGR:"); printfcln(pf.no_sgr, "No color or attributes set.")
@@ -120,10 +120,6 @@ main :: proc() {
 	printfcln(xuul, "%s", "https://github.com/OnlyXuul/")
 	printfcln(xuul, "%s", "https://gitlab.com/xuul/")
 
-	printfcln({}, "")
-	for t, i in Theme {
-		printfcln(xuul, "%s", t.name)
-	}
 	// if running in a loop or executing often in a long running program,
 	// periodically clear the context.temp_allocator either at the end of the loop,
 	// or when appropriate.

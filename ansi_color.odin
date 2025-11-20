@@ -192,15 +192,15 @@ ANSI_24Bit :: struct {
  * printfcln
  ***********************************************************/
 
-printfc :: proc(ansi_format: ANSI_Format, printf_format: string, args: ..any) {
-	fprintfc(ansi_format, printf_format, ..args, newline = false)
+printfc :: proc(ansi_format: ANSI_Format, printf_format: string, args: ..any, flush := true) {
+	fprintfc(ansi_format, printf_format, ..args, flush = flush, newline = false)
 }
 
-printfcln :: proc(ansi_format: ANSI_Format, printf_format: string, args: ..any) {
-	fprintfc(ansi_format, printf_format, ..args, newline = true)
+printfcln :: proc(ansi_format: ANSI_Format, printf_format: string, args: ..any, flush := true) {
+	fprintfc(ansi_format, printf_format, ..args, flush = flush, newline = true)
 }
 
-fprintfc :: proc(ansi_format: ANSI_Format, printf_format: string, args: ..any, newline := false) {
+fprintfc :: proc(ansi_format: ANSI_Format, printf_format: string, args: ..any, flush := true, newline := false) {
 
 	get_attributes :: proc(attributes: bit_set[Attribute]) -> (att: string) {
 		semi: string
@@ -268,5 +268,5 @@ fprintfc :: proc(ansi_format: ANSI_Format, printf_format: string, args: ..any, n
 		format = printf_format
 	}
 
-	fmt.fprintf(os.stdout, format, ..args, flush = true, newline = newline)
+	fmt.fprintf(os.stdout, format, ..args, flush = flush, newline = newline)
 }
